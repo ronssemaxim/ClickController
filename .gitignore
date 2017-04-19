@@ -87,3 +87,9 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+# ignore kube-config.conf
+/Kube/kube-config.conf
+
+# ignore intellij idea folder
+.idea/
