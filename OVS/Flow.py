@@ -3,13 +3,13 @@ OVS/Flow.py. Manages the flows for an Open vSwitch
 
 Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
 """
-from PyClickController import Logger
-from PyClickController.DelayedInvoke import DelayedInvoke
-from PyClickController.MainConfig import VPN_COMPONENTS_ORDER_INCOMING, VPN_COMPONENTS_ORDER_OUTGOING, \
+import Logger
+from DelayedInvoke import DelayedInvoke
+from MainConfig import VPN_COMPONENTS_ORDER_INCOMING, VPN_COMPONENTS_ORDER_OUTGOING, \
     EXTERNAL_DPDKR_NR, INTERNAL_DPDK_NR, DEPLOYMENT_READY_TIME
-from PyClickController.OVS.Config import OVS_SWITCH_NAME, KUBE_COMPONENT_TO_OVS_CONFIG
-from PyClickController.OVS.Switch import get_dpdk_to_ovs_nr
-from PyClickController.SSH import get_ssh_con_master
+from OVS.Config import OVS_SWITCH_NAME, KUBE_COMPONENT_TO_OVS_CONFIG
+from OVS.Switch import get_dpdk_to_ovs_nr
+from SSH import get_ssh_con_master
 
 
 def delete_all_flows():

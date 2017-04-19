@@ -88,8 +88,10 @@ ENV/
 # Rope project settings
 .ropeproject
 
-# ignore kube-config.conf
-/Kube/kube-config.conf
-
 # ignore intellij idea folder
 .idea/
+
+
+# ignore sensitive click-controller data
+/Kube/kube-config.conf
+PrivateConfig.py

@@ -3,11 +3,11 @@ Initialize.py. Configures the initial deployments and their flows
 
 Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
 """
-from PyClickController import Logger
-from PyClickController.Kube.Config import KUBE_COMPONENT_TO_LABEL_VALUE
-from PyClickController.Kube.Deployment import create_deployment_for_component, delete_all_deployments
-from PyClickController.MainConfig import DO_INIT_DEPLOYMENTS
-from PyClickController.OVS.Flow import create_component_flows
+import Logger
+from Kube.Config import KUBE_COMPONENT_TO_LABEL_VALUE
+from Kube.Deployment import create_deployment_for_component, delete_all_deployments
+from MainConfig import DO_INIT_DEPLOYMENTS
+from OVS.Flow import create_component_flows
 
 
 def create_initial_deployments(dpdkr_to_ovs_nr):

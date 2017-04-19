@@ -4,23 +4,16 @@ Kube/Config.py. Used to configure Kubernetes options.
 Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
 """
 
-# dictionary of kubernetes nodes hostname: {
-#  {ip:, username:, password:, healthPort:, apiPort:, maxUplinkSpeed:
-# }
-from PyClickController.MainConfig import ClickComponentName
+from MainConfig import ClickComponentName
+from PrivateConfig import privateNodes, privateMasterNode
 
-NODES = {
-    "kubenode1.vpnmaxim.wall2-ilabt-iminds-be.wall2.ilabt.iminds.be": {
-        "ip": "193.190.127.210",
-        "username": "click-controller",
-        "password": "Azerty123",
-        "healthPort": 10255,
-        "apiPort": 6443,
-        "maxUplinkSpeed": 1024*1024  # in bps
-    }
-}
+# dictionary of kubernetes nodes {hostname: {
+#  {"ip":str, "username":str, "password":str, "healthPort":int, "apiPort":int, "maxUplinkSpeed":bps
+# }, ... }
+NODES = privateNodes
+
 # hostname of the master node
-MASTER_NODE_NAME = "kubenode1.vpnmaxim.wall2-ilabt-iminds-be.wall2.ilabt.iminds.be"
+MASTER_NODE_NAME = privateMasterNode
 
 # the component label for the deployments and their value per component type
 # format for the value: [a-zA-Z0-9]+

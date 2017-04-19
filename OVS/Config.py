@@ -3,7 +3,7 @@ OVS/Config.py. Used to configure Open vSwitch options.
 
 Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
 """
-from PyClickController.MainConfig import ClickComponentName
+from MainConfig import ClickComponentName
 
 # mapping of click component to multipath options.
 # {ClickComponentName: {"beforeTable":x,"afterTable":y,"register":z}, ...}

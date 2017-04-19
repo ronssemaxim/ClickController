@@ -3,7 +3,7 @@ KubeAdapter.py. Used to execute actions on the k8s API
 
 Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
 """
-from PyClickController import Logger
+from ClickController import Logger
 from kubernetes import client, config
 from kubernetes.client.rest import ApiException
 

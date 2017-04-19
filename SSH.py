@@ -4,10 +4,10 @@ SSH.py. Creates and maintains an SSH connection
 Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
 """
 import paramiko as paramiko
-from PyClickController import Logger
+import Logger
 
-from PyClickController.Kube.Config import MASTER_NODE_NAME, NODES
-from PyClickController.MainConfig import DO_LOG_SSH_CMDS_TO_FILE, LOG_SSH_FILE
+from Kube.Config import MASTER_NODE_NAME, NODES
+from MainConfig import DO_LOG_SSH_CMDS_TO_FILE, LOG_SSH_FILE
 
 # used to cache an often used SSH connection
 master_ssh_con = None

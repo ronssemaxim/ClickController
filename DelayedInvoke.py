@@ -6,7 +6,7 @@ Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
 import threading
 import time
 
-from PyClickController import Logger
+import Logger
 
 # set to 1/True to stop all the threads
 exitFlag = 0

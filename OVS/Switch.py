@@ -5,9 +5,9 @@ Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
 """
 import re
 
-from PyClickController import Logger
-from PyClickController.OVS.Config import OVS_SWITCH_NAME
-from PyClickController.SSH import get_ssh_con_master
+import Logger
+from OVS.Config import OVS_SWITCH_NAME
+from SSH import get_ssh_con_master
 
 
 def get_dpdkr_to_ovs_nr():

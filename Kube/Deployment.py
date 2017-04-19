@@ -4,15 +4,15 @@ Kube/Deployment.py. Used to start/stop kubernetes deployments
 Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
 """
 
-from PyClickController import Logger
-from PyClickController.DelayedInvoke import DelayedInvoke
-from PyClickController.Docker.Config import IMAGE_NAMES
-from PyClickController.Kube import KubeAdapter
-from PyClickController.Kube.Config import KUBE_COMPONENT_TO_LABEL_VALUE
-from PyClickController.MainConfig import KUBE_COMPONENT_LABEL_NAME, KUBE_DEPLOYMENT_PREFIX, DO_INIT_DEPLOYMENTS, \
+import Logger
+from DelayedInvoke import DelayedInvoke
+from Docker.Config import IMAGE_NAMES
+from Kube import KubeAdapter
+from Kube.Config import KUBE_COMPONENT_TO_LABEL_VALUE
+from MainConfig import KUBE_COMPONENT_LABEL_NAME, KUBE_DEPLOYMENT_PREFIX, DO_INIT_DEPLOYMENTS, \
     DELETE_DEPLOYMENT_AFTER
-from PyClickController.OVS.DPDKR import DPDKR
-from PyClickController.SSH import get_ssh_con_master
+from OVS.DPDKR import DPDKR
+from SSH import get_ssh_con_master
 
 dpdkr = DPDKR()
 

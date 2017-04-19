@@ -19,22 +19,22 @@ import re
 import time
 
 import math
-
-from PyClickController import Logger
-from PyClickController.Initialize import create_initial_deployments, create_deployment_for_component
-from PyClickController.Kube.Config import MASTER_NODE_NAME, KUBE_LABEL_VALUE_TO_COMPONENT, KUBE_COMPONENT_TO_LABEL_VALUE
-from PyClickController.Kube.Deployment import delete_deployment_delayed
-from PyClickController.Kube.Stats import get_load_per_pod
-from PyClickController.MainConfig import UPDATE_INTERVAL, VPN_COMPONENTS_ORDER_INCOMING, \
+import Logger
+from Initialize import create_initial_deployments, create_deployment_for_component
+from Kube.Config import MASTER_NODE_NAME, KUBE_LABEL_VALUE_TO_COMPONENT, KUBE_COMPONENT_TO_LABEL_VALUE
+from Kube.Deployment import delete_deployment_delayed
+from Kube.Stats import get_load_per_pod
+from MainConfig import UPDATE_INTERVAL, VPN_COMPONENTS_ORDER_INCOMING, \
     VPN_COMPONENTS_ORDER_OUTGOING, CPU_OVERLOADED_AT, CPU_UNDERLOADED_AT, KUBE_DEPLOYMENT_PREFIX, \
     NETWORK_SATURATED_AT, NETWORK_DESATURATED_AT, DELETE_DEPLOYMENT_AFTER, DEPLOYMENT_READY_TIME, \
     MAX_NETWORK_PKTS_PER_COMPONENT
-from PyClickController.OVS.Config import KUBE_COMPONENT_TO_OVS_CONFIG
-from PyClickController.OVS.Flow import delete_flow, get_multipath_rule, add_flow, add_flows_for_new_deployment_delayed
-from PyClickController.OVS.Switch import get_dpdk_to_ovs_nr, get_dpdkr_to_ovs_nr, get_ovs_to_dpdkr_nr
+from OVS.Config import KUBE_COMPONENT_TO_OVS_CONFIG
+from OVS.Flow import delete_flow, get_multipath_rule, add_flow, add_flows_for_new_deployment_delayed
+from OVS.Switch import get_dpdk_to_ovs_nr, get_dpdkr_to_ovs_nr, get_ovs_to_dpdkr_nr
 
 ########################################################################################################################
 #   0: Script Initialisation
+
 
 Logger.log("XXX", "Starting Click Controller, v0.9")
 dpdk_to_ovs_port_nr = get_dpdk_to_ovs_nr()
@@ -134,7 +134,8 @@ while True:
         if cpuUsage > CPU_OVERLOADED_AT or networkUsage > NETWORK_SATURATED_AT:  # overloaded ==> start new pod
             Logger.log("XXX", "Overloaded component " + str(component_type) + " (" + str(cpuUsage) + "%/" +
                        str(CPU_OVERLOADED_AT) + "% cpu usage and " + str(networkUsage) + "pkts/sec / " +
-                       str(NETWORK_SATURATED_AT) + "pkts/sec) has " + str(dep_count) + " deployments, adding new deployment ", 1)
+                       str(NETWORK_SATURATED_AT) + "pkts/sec) has " + str(dep_count) + " deployments, "
+                                                                                       "adding new deployment ", 1)
 
             try:
                 # first: create new deployment for this component
@@ -161,15 +162,16 @@ while True:
             if dep_count > 1:  # has more than one deployment ==> remove last started one
                 if len(deployments_per_component[component_type]) <= 0:
                     Logger.log("XXX", "ErrorInfo: Load for this component: " + str(load_per_component[component_type]))
-                    Logger.log("XXX", "ErrorInfo: Deployments for this component: " + str(deployments_per_component[component_type]))
+                    Logger.log("XXX", "ErrorInfo: Deployments for this component: " +
+                               str(deployments_per_component[component_type]))
                     Logger.log("XXX", "ErrorInfo: Load for this component: " + str(load_per_component[component_type]))
                     Logger.log("XXX", "ErrorInfo: Load for each pod: " + str(load_per_pod))
                     raise KeyError("At least one deployment of each component should be available at this point, but " +
                                    str(component_type) + " has " + str(len(deployments_per_component[component_type])))
 
                 Logger.log("XXX", "Underloaded component " + str(component_type) + " (" + str(cpuUsage) + "%/" +
-                       str(CPU_OVERLOADED_AT) + "% cpu usage and " + str(networkUsage) + "pkts/sec / " +
-                       str(NETWORK_SATURATED_AT) + "pkts/sec) has " +
+                           str(CPU_OVERLOADED_AT) + "% cpu usage and " + str(networkUsage) + "pkts/sec / " +
+                           str(NETWORK_SATURATED_AT) + "pkts/sec) has " +
                            str(dep_count) +
                            " deployments, removing last added deployment " +
                            deployments_per_component[component_type][-1]["name"], 1)

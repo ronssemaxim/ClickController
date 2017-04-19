@@ -4,19 +4,19 @@ OVS/DPDKR.py. Keeps track of the free DPDKR ports, using a linked list
 Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
 """
 
-from PyClickController.OVS.Switch import get_ovs_to_dpdkr_nr
+from OVS.Switch import get_ovs_to_dpdkr_nr
 
 
 # Node class used to define the linked list
 class Node:
-    # carge = data in this node, next = next node or none if no next node
-    def __init__(self, cargo=None, next=None):
+    # carge = data in this node, nxt = next node or none if no next node
+    def __init__(self, cargo=None, nxt=None):
         self.data = cargo
-        self.next = next
+        self.nxt = nxt
 
     # print this node and all next nodes
     def __str__(self):
-        return str(self.data) + " -> " + str(self.next)
+        return str(self.data) + " -> " + str(self.nxt)
 
 
 class DPDKR:
@@ -36,7 +36,7 @@ class DPDKR:
         """
         if self.free_ports:
             ret = self.free_ports.data
-            self.free_ports = self.free_ports.next
+            self.free_ports = self.free_ports.nxt
             return ret
         else:
             raise IndexError("No free dpdkr ports found")

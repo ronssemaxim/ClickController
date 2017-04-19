@@ -4,10 +4,10 @@ from time import time
 
 import requests
 
-from PyClickController import Logger
-from PyClickController.Kube.Config import NODES
-from PyClickController.MainConfig import CORE_COUNT_PER_CONTAINER, KUBE_DEPLOYMENT_PREFIX
-from PyClickController.OVS.Switch import get_ovs_port_rxtx
+import Logger
+from Kube.Config import NODES
+from MainConfig import CORE_COUNT_PER_CONTAINER, KUBE_DEPLOYMENT_PREFIX
+from OVS.Switch import get_ovs_port_rxtx
 
 # fetch initial network usage per ovs port
 last_network_usage = get_ovs_port_rxtx()

@@ -5,8 +5,8 @@ Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
 """
 import inspect
 
-from PyClickController.MainConfig import DO_LOG_TO_FILE, LOG_FILE, DO_LOG_JSON_TO_FILE, LOG_JSON_FILE
-from PyClickController.MainConfig import VERBOSE
+from MainConfig import DO_LOG_TO_FILE, LOG_FILE, DO_LOG_JSON_TO_FILE, LOG_JSON_FILE
+from MainConfig import VERBOSE
 
 
 def log(tag, txt, minVerbose=0):

@@ -1,8 +1,8 @@
 
-from PyClickController import Logger
-from PyClickController.Kube import KubeAdapter
-from PyClickController.Kube.Config import KUBE_COMPONENT_TO_LABEL_VALUE
-from PyClickController.MainConfig import KUBE_COMPONENT_LABEL_NAME
+import Logger
+from Kube import KubeAdapter
+from Kube.Config import KUBE_COMPONENT_TO_LABEL_VALUE
+from MainConfig import KUBE_COMPONENT_LABEL_NAME
 
 
 def get_all_pods(label_dict=None):

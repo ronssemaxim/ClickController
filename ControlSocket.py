@@ -65,9 +65,9 @@ class ClickControlSocketClient:
 Test code:
  click = ClickControlSocketClient("127.0.0.1", 1234)
 print(click.set_config("""ICMPPingSource(192.168.123.10, 192.168.123.123, INTERVAL 2)
-	-> rt::RadixIPsecLookup(192.168.123.11/32 0,
-                        192.168.123.123/32 192.168.123.12 1 234 ABCDEFFF001DEFD2 ABCDEFFF001DEFD2 1 64,
-                        192.168.123.12/32 2);
+    -> rt::RadixIPsecLookup(192.168.123.11/32 0,
+        192.168.123.123/32 192.168.123.12 1 234 ABCDEFFF001DEFD2 ABCDEFFF001DEFD2 1 64,
+        192.168.123.12/32 2);
 
 rt[0] -> IPPrint(firstMatch) -> Discard;
 rt[1] -> IPPrint(secondMatch) -> Discard

@@ -5,7 +5,7 @@ Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
 """
 
 # the image names for each component. Image names need not to be unique
-from PyClickController.MainConfig import ClickComponentName
+from MainConfig import ClickComponentName
 
 IMAGE_NAMES = {
     ClickComponentName.IPSecEnc: "ronssemaxim/customclick",
