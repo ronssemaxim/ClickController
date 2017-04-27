@@ -35,6 +35,9 @@ def get_ssh_con_master(cached=True):
 
 
 class SSH:
+    """
+    SSH class used to setup an SSH connection and communicate over that connection
+    """
     stdout = None
     stdin = None
     stderr = None
@@ -56,14 +59,15 @@ class SSH:
         Logger.log("SSH", "connection setup", 6)
         self.con.connect(host, username=username, password=password)
 
-    def exec(self, cmd, asArray=False, mayFail=False, mustReturnOutput=False):
+    def exec(self, cmd, as_array=False, may_fail=False, must_return_output=False):
         """
         Executes an SSH command and returns both stdout and stderr lines combined
         :param cmd: command to execute
-        :param asArray: return the output lines as a list or as one blob of text.
-        :param mayFail: if True, prints an error message to the screen (verbose level 2 or higher) if the command
+        :param as_array: return the output lines as a list or as one blob of text.
+        :param may_fail: if True, prints an error message to the screen (verbose level 2 or higher) if the command
         produces an error string
-        :param mustReturnOutput: if the command returns empty output on both stderr & stdout, execute the command again
+        :param must_return_output: if the command returns empty output on both stderr & stdout, execute the command 
+        again
         :return: the output (list or string). Note: if as array, the end of each
         line might contain a newline character
         """
@@ -73,28 +77,28 @@ class SSH:
 
         self.stdin, self.stdout, self.stderr = self.con.exec_command(cmd)
         err_lines = self.stderr.readlines()
-        if len(err_lines) > 0 and not mayFail:
+        if len(err_lines) > 0 and not may_fail:
             Logger.log("SSH", "SSH ERROR: " + ''.join(err_lines), 2)
 
         lines = self.stdout.readlines() + err_lines
         # if must return output: check if lines list is empty, and execute again
-        if mustReturnOutput and len(lines) <= 0:
+        if must_return_output and len(lines) <= 0:
             if len(lines) <= 0:
                 Logger.log("SSH", "Command " + cmd + " returned nothing, trying again", 7)
-            return self.exec(cmd, asArray, mayFail, mustReturnOutput)
+            return self.exec(cmd, as_array, may_fail, must_return_output)
 
-        return lines if asArray else ''.join(lines)
+        return lines if as_array else ''.join(lines)
 
-    def run(self, cmd, asArray=False, mayFail=False, mustReturnOutput=False):
+    def run(self, cmd, as_array=False, may_fail=False, must_return_output=False):
         """
         Alias for exec()
         :param cmd:
-        :param asArray:
-        :param mayFail:
-        :param mustReturnOutput:
+        :param as_array:
+        :param may_fail:
+        :param must_return_output:
         :return:
         """
-        return self.exec(cmd, asArray, mayFail, mustReturnOutput)
+        return self.exec(cmd, as_array, may_fail, must_return_output)
 
     def __exit__(self, exc_type, exc_value, traceback):
         # destructor

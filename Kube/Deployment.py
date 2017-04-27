@@ -10,7 +10,7 @@ from Docker.Config import IMAGE_NAMES
 from Kube import KubeAdapter
 from Kube.Config import KUBE_COMPONENT_TO_LABEL_VALUE
 from MainConfig import KUBE_COMPONENT_LABEL_NAME, KUBE_DEPLOYMENT_PREFIX, DO_INIT_DEPLOYMENTS, \
-    DELETE_DEPLOYMENT_AFTER
+    DELETE_DEPLOYMENT_AFTER, KUBE_DPDK_RING_LABEL_NAME
 from OVS.DPDKR import DPDKR
 from SSH import get_ssh_con_master
 
@@ -25,28 +25,28 @@ def get_all_deployments():
     return KubeAdapter.get_all_deployments()
 
 
-def create_deployment_for_component(componentType, dpdkr_to_ovs_nr):
+def create_deployment_for_component(component_type, dpdkr_to_ovs_nr):
     """
     Create a k8s deployment for the specified component.
-    :param componentType: the component type for which to create the deployment
+    :param component_type: the component type for which to create the deployment
     :param dpdkr_to_ovs_nr: dictionary of DPDK Ring number to Open vSwitch port number. Used to return the ovsPort
     :return: details for the created deployment: {name:, dpdkr:, ovsPort:, type:}
     """
-    component_label_value = KUBE_COMPONENT_TO_LABEL_VALUE[componentType]
+    component_label_value = KUBE_COMPONENT_TO_LABEL_VALUE[component_type]
     next_dpdkr = dpdkr.get_next()
-    kube_deployment_name = KUBE_DEPLOYMENT_PREFIX + "-" + KUBE_COMPONENT_TO_LABEL_VALUE[componentType] + "-" + \
-                           str(next_dpdkr)
-    kube_component_type = str(componentType)
+    kube_deployment_name =\
+        KUBE_DEPLOYMENT_PREFIX + "-" + KUBE_COMPONENT_TO_LABEL_VALUE[component_type] + "-" + str(next_dpdkr)
+    kube_component_type = str(component_type)
 
     Logger.log("Init", "Creating deployment for component " + component_label_value, 4)
     Logger.log("Init", "    ->deployment name is " + kube_deployment_name, 4)
     Logger.log("Init", "    ->component type is " + kube_component_type, 4)
-    Logger.log("Init", "    ->image name is " + IMAGE_NAMES[componentType], 4)
+    Logger.log("Init", "    ->image name is " + IMAGE_NAMES[component_type], 4)
     Logger.log("Init", "    ->label name is " + KUBE_COMPONENT_LABEL_NAME, 4)
     if DO_INIT_DEPLOYMENTS:
-        create_deployment(kube_deployment_name, IMAGE_NAMES[componentType], {
+        create_deployment(kube_deployment_name, IMAGE_NAMES[component_type], {
             KUBE_COMPONENT_LABEL_NAME: component_label_value,
-            "dpdkr": str(next_dpdkr)
+            KUBE_DPDK_RING_LABEL_NAME: str(next_dpdkr)
         })
 
     return {
@@ -62,7 +62,7 @@ def create_deployment(deployment_name, image_name, labels):
     Create a single k8s deployment
     :param deployment_name: name for this deployment
     :param image_name: image name for this deployment (see Docker/Config.py)
-    :param labels: dictionary of labesl, specified as name: value
+    :param labels: dictionary of labels, specified as name: value
     :return:
     """
     Logger.log("Dep", "Creating new deployment with name " + deployment_name + ", using image " + image_name)

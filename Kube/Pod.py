@@ -1,4 +1,8 @@
+"""
+Kube/Pod.py. Used to fetch k8s pods
 
+Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
+"""
 import Logger
 from Kube import KubeAdapter
 from Kube.Config import KUBE_COMPONENT_TO_LABEL_VALUE
@@ -6,10 +10,19 @@ from MainConfig import KUBE_COMPONENT_LABEL_NAME
 
 
 def get_all_pods(label_dict=None):
+    """
+    Returns a list of all pods
+    :param label_dict: labelSelector, as defined in the Kubernetes 1.6 API. In this case this is a Python Dictionary
+    :return: 
+    """
     return KubeAdapter.get_all_pods(label_dict)
 
 
 def get_pods_on_nodes():
+    """
+    Should return a dictionary with node name : pods on the node. Currently broken and not used
+    :return: dictionary
+    """
     pods = get_all_pods({
         # FIXME
         KUBE_COMPONENT_LABEL_NAME: list(KUBE_COMPONENT_TO_LABEL_VALUE.values())

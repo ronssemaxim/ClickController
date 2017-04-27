@@ -1,3 +1,8 @@
+"""
+Kube/Stats.py. Used to fetch statistics from k8s
+
+Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
+"""
 import re
 from datetime import datetime
 from time import time
@@ -15,22 +20,34 @@ last_network_usage_fetched = time()  # num of seconds since epoch
 
 
 def kube_datetime_to_python_datetime(str_datetime):
+    """
+    Converts a Kubernetes datetime object to a python datetime object
+    :param str_datetime: string representation of the kubernetes datetime
+    :return: python formatted string
+    """
     str_datetime = str_datetime[:-9]  # remove last 8 chars
     return datetime.strptime(str_datetime, '%Y-%m-%dT%H:%M:%S.%f')
 
 
-def get_load_per_pod(nodeName, dpdkr_to_ovs_nr):
-    node = NODES[nodeName]
+def get_load_per_pod(node_name, dpdkr_to_ovs_nr):
+    """
+    Get the load for each pod on a specific node
+    :param node_name: hostname/DNSname of the node
+    :param dpdkr_to_ovs_nr: a mapping of DPDK ring numbers to OVS number
+    :return: a dictionary with a mapping podName: { "cpu":,"network":,}
+    """
+    node = NODES[node_name]
     ret_dict = {}
 
     try:
-        r = requests.get("http://" + nodeName + ":" + str(node["healthPort"]) + "/stats/summary")
+        # fetch pod load from healthz handler
+        r = requests.get("http://" + node_name + ":" + str(node["healthPort"]) + "/stats/summary")
         # pods->podRef->name
         # kubeDeploymentPrefix
         # pods->containers->cpu->usageCoreNanoSeconds  / (coreCountPerContainer * 1e+9)
         if r.status_code == 200:
             json = r.json()
-            Logger.log("Stats", "Node " + nodeName + " is up", 2)
+            Logger.log("Stats", "Node " + node_name + " is up", 2)
             Logger.log("json", json)
 
             current_network_usage = get_ovs_port_rxtx()
@@ -56,14 +73,14 @@ def get_load_per_pod(nodeName, dpdkr_to_ovs_nr):
                 # else remove port from stats
                 else:
                     Logger.log("Stats", "OVS port nr " + str(port) + " deleted from host, "
-                                                                     "removing from dictionary aswel." + str(current_network_usage), 2)
+                                                                     "removing from dictionary aswel." +
+                                                                     str(current_network_usage), 2)
                     pop_ports.append(port)  # add to pop_ports (DONT delete it here
                     # , else: dictionary changed size during iteration
             # delete here
             for port in pop_ports:
                 last_network_usage.pop(port, None)
 
-            Logger.log("json", json)
             pattern = re.compile(KUBE_DEPLOYMENT_PREFIX + "-[a-zA-Z0-9]+-(\d+)-")
             for pod in json["pods"]:
                 podName = pod["podRef"]["name"]
@@ -75,7 +92,7 @@ def get_load_per_pod(nodeName, dpdkr_to_ovs_nr):
                     if pod["containers"] and "cpu" in pod["containers"][0]:
                         cpuUsage = int(pod["containers"][0]["cpu"]["usageCoreNanoSeconds"]) / \
                                    (CORE_COUNT_PER_CONTAINER * 1e+9)
-                        Logger.log("Stats", "Networkusage = " + str(last_network_usage), 9)
+                        Logger.log("Stats", "Network usage = " + str(last_network_usage), 9)
                         networkUsage = last_network_usage[dpdkr_to_ovs_nr[dpdkr_nr]]["max"]
                         ret_dict[podName] = {
                             "cpu": cpuUsage,
@@ -84,12 +101,12 @@ def get_load_per_pod(nodeName, dpdkr_to_ovs_nr):
                     else:
                         Logger.log("Stats", "Pod " + podName + " has no containers (probably exiting/starting)", 7)
         else:
-            Logger.log("Stats", "Node " + nodeName + " is down", 2)
+            Logger.log("Stats", "Node " + node_name + " is down", 2)
     except (requests.exceptions.HTTPError, ValueError) as exc:
-        Logger.log("Stats", "Error => Node " + nodeName + " is partially down, error details: ", 1)
+        Logger.log("Stats", "Error => Node " + node_name + " is partially down, error details: ", 1)
         Logger.log("Stats", exc, 1)
     except requests.exceptions.ConnectionError as exc:
-        Logger.log("Stats", "Error => Node " + nodeName + " is down, error details: ", 1)
+        Logger.log("Stats", "Error => Node " + node_name + " is down, error details: ", 1)
         Logger.log("Stats", exc, 1)
 
 # returns pointer

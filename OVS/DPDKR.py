@@ -7,9 +7,11 @@ Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
 from OVS.Switch import get_ovs_to_dpdkr_nr
 
 
-# Node class used to define the linked list
 class Node:
-    # carge = data in this node, nxt = next node or none if no next node
+    """
+    Node class used to define the linked list
+    """
+
     def __init__(self, cargo=None, nxt=None):
         self.data = cargo
         self.nxt = nxt
@@ -20,6 +22,10 @@ class Node:
 
 
 class DPDKR:
+    """
+    Keeps track of the actual numbers of the DPDK rings
+    """
+
     def __init__(self):
         # init linked list
         self.free_ports = None

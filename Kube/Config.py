@@ -5,12 +5,12 @@ Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
 """
 
 from MainConfig import ClickComponentName
-from PrivateConfig import privateNodes, privateMasterNode
+from PrivateConfig import PRIVATE_NODES, privateMasterNode
 
 # dictionary of kubernetes nodes {hostname: {
 #  {"ip":str, "username":str, "password":str, "healthPort":int, "apiPort":int, "maxUplinkSpeed":bps
 # }, ... }
-NODES = privateNodes
+NODES = PRIVATE_NODES
 
 # hostname of the master node
 MASTER_NODE_NAME = privateMasterNode

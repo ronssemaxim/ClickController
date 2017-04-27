@@ -115,8 +115,8 @@ while True:
         if dep_count > 0:
             cpuUsage = load_per_component[component_type]["cpu"] / \
                        dep_count
-            networkUsage = load_per_component[component_type]["network"] / \
-                           (MAX_NETWORK_PKTS_PER_COMPONENT[component_type] / 100)
+            networkUsage = \
+                load_per_component[component_type]["network"] / (MAX_NETWORK_PKTS_PER_COMPONENT[component_type] / 100)
         else:
             continue  # this component might not have any deployments (eg if it is never used in any chain)
 
@@ -207,4 +207,6 @@ while True:
 
     time.sleep(UPDATE_INTERVAL)
 
+# this line should be unreachable, but is useful for development purposes
+# noinspection PyUnreachableCode
 Logger.log("XXX", "done!")

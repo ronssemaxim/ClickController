@@ -6,7 +6,7 @@ Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
 import Logger
 from DelayedInvoke import DelayedInvoke
 from MainConfig import VPN_COMPONENTS_ORDER_INCOMING, VPN_COMPONENTS_ORDER_OUTGOING, \
-    EXTERNAL_DPDKR_NR, INTERNAL_DPDK_NR, DEPLOYMENT_READY_TIME
+    EXTERNAL_DPDKR_NR, INTERNAL_DPDK_NR, DEPLOYMENT_READY_TIME, OUTGOING_VLAN, INCOMING_VLAN
 from OVS.Config import OVS_SWITCH_NAME, KUBE_COMPONENT_TO_OVS_CONFIG
 from OVS.Switch import get_dpdk_to_ovs_nr
 from SSH import get_ssh_con_master
@@ -41,7 +41,7 @@ def get_multipath_rule(chain, component_type, modulo, is_incoming, dpdk_to_ovs_n
     """
     Get the multipath OpenFlow rule for a certain component.
     :param chain: The complete chain where the component resides in. Needed to know the previous component and to
-    connect them to eachother
+    connect them to each other
     :param component_type: the type of the component to generate the rule for. Needed to know the position of this
     component in the chain
     :param modulo: how many instances run inside this component. The hash will be calculated%module.
@@ -58,13 +58,13 @@ def get_multipath_rule(chain, component_type, modulo, is_incoming, dpdk_to_ovs_n
     chain_nr = chain.index(component_type)
     if chain_nr == 0:
         push_vlan = "mod_vlan_vid:"
-        push_vlan += "10" if is_incoming else "11"
+        push_vlan += INCOMING_VLAN if is_incoming else OUTGOING_VLAN
         push_vlan += ","
         in_port = str(dpdk_to_ovs_nr[EXTERNAL_DPDKR_NR if is_incoming else INTERNAL_DPDK_NR])
         ret = "\"in_port=" + in_port + ",actions=" + push_vlan + ","
     else:
         check_vlan = "dl_vlan="
-        check_vlan += "10" if is_incoming else "11"
+        check_vlan += INCOMING_VLAN if is_incoming else OUTGOING_VLAN
         check_vlan += ","
         ret = "\"table=" + str(KUBE_COMPONENT_TO_OVS_CONFIG[chain[chain_nr - 1]]["afterTable"]) + \
               "," + check_vlan + "actions="
@@ -134,7 +134,7 @@ def create_chain_flows(chain, deployments_per_component, is_incoming):
         prev_component = component
 
     check_vlan = "dl_vlan="
-    check_vlan += "10" if is_incoming else "11"
+    check_vlan += INCOMING_VLAN if is_incoming else OUTGOING_VLAN
     check_vlan += ","
     Logger.log("Flow", "Creating flow for last table to dpdk0 port", 4)
     ssh_con.exec("sudo ovs-ofctl add-flow " + OVS_SWITCH_NAME + " \""

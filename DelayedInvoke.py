@@ -1,5 +1,5 @@
 """
-DelayedInvoke.py. Invoke any python definition after a certain time
+DelayedInvoke.py. Invoke any python function after a certain time
 
 Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
 """
@@ -13,6 +13,10 @@ exitFlag = 0
 
 
 class DelayedInvoke(threading.Thread):
+    """
+    Class, derived from Threading, used to execute any python function after a certain time has passed
+    """
+
     def __init__(self, func, *args, exec_after):
         """
         Create the DelayedInvoke object.

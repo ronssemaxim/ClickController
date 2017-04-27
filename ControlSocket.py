@@ -7,6 +7,9 @@ import socket
 
 
 class ClickControlSocketClient:
+    """
+    Class used to communicate with a Click handler
+    """
     BUFFER_SIZE = 1024
     TERMINATOR = "yU6Ap5uq8X*h@sTU68ekURecrakeThej"  # a random terminator, should never occur in the data
 
@@ -14,7 +17,7 @@ class ClickControlSocketClient:
         """
         Initialize object and connect to the socket
         :param ip: Remote IP
-        :param port: Remtoe port
+        :param port: Remote port
         """
         self.ip = ip
         self.port = port
@@ -40,13 +43,13 @@ class ClickControlSocketClient:
         """
         return self.send("read config")
 
-    def set_config(self, configLines):
+    def set_config(self, config_lines):
         """
         Set the Click configuration (hotswap using hotconfig global handler)
-        :param configLines:
+        :param config_lines:
         :return:
         """
-        return self.send("writeuntil hotconfig " + self.TERMINATOR + "\n" + configLines + "\n" + self.TERMINATOR)
+        return self.send("writeuntil hotconfig " + self.TERMINATOR + "\n" + config_lines + "\n" + self.TERMINATOR)
 
     def get_flat_config(self):
         """

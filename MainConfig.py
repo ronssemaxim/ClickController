@@ -20,6 +20,8 @@ INTERNAL_DPDK_NR = 1  # DPDK port number (numeric) for the internal interface, b
 # internal network is
 EXTERNAL_DPDKR_NR = 0  # DPDK port number (numeric) for the external interface, being the interface which connects
 # to the ISP
+INCOMING_VLAN = 10
+OUTGOING_VLAN = 11
 
 CORE_COUNT_PER_CONTAINER = 24  # number of cores one container is assigned
 DELETE_DEPLOYMENT_AFTER = 2  # wait for this amount of seconds after the OpenFlow rules have been delete before deleting
@@ -39,6 +41,9 @@ CPU_UNDERLOADED_AT = 35  # lower trigger, in percent
 
 # definition of Click Components
 class ClickComponentName(Enum):
+    """
+    An enum used to define the VPN Component types and their internal number (never used)
+    """
     IPSecEnc = 1
     IPSecDec = 2
     Firewall = 3
@@ -66,7 +71,7 @@ VPN_COMPONENTS_ORDER_INCOMING = [
 # internal net -> shaper -> firewall -> qos -> encrypt -> VPN net
 VPN_COMPONENTS_ORDER_OUTGOING = [
     ClickComponentName.TrafficShaper,
-    ClickComponentName.QoS,
-    ClickComponentName.IPSecDec,
     ClickComponentName.Firewall,
+    ClickComponentName.QoS,
+    ClickComponentName.IPSecEnc,
 ]
