@@ -113,10 +113,7 @@ fi
 
 if [[ $* == *--start-click* ]]; then
         sleep 1;
-#	click --dpdk -c 0x1 -n 1 --socket-mem 2048 --file-prefix test -- $2 2>&1 | tee -a /usr/src/app/run.log | tee >(logger)
-        click --dpdk -l 1-23 -n 4 --lcores='(2-12)@(0,1)' --master-lcore 2 --socket-mem 1024 --no-pci --file-prefix test --proc-type=secondary -- $2 2>&1 | tee -a /usr/src/app/run.log | tee >(logger)
-
-#        click --dpdk -l 0-3 -n 4 --lcores='(1-3)@(0,1)' --master-lcore 1 --socket-mem 1024 -b "0000:04:00.1" --file-prefix test --proc-type=primary -- $2 2>&1 | tee -a /usr/src/app/run.log | tee >(logger)
+        click --dpdk -l $coreNum -n 1 --socket-mem 1024 --no-pci --file-prefix test --proc-type=secondary -- $2 2>&1 | tee -a /usr/src/app/run.log | tee >(logger)
 fi
 
 exit 1;
