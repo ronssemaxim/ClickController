@@ -8,9 +8,8 @@ Ronsse Maxim <maxim.ronsse@ugent.be | ronsse.maxim@gmail.com>
 from MainConfig import ClickComponentName
 
 IMAGE_NAMES = {
-    ClickComponentName.IPSecEnc: "ronssemaxim/customclick",
-    ClickComponentName.IPSecDec: "ronssemaxim/customclick",
-    ClickComponentName.QoS: "ronssemaxim/customclick",
-    ClickComponentName.Firewall: "ronssemaxim/customclick",
-    ClickComponentName.TrafficShaper: "ronssemaxim/customclick",
+    ClickComponentName.IPSec: "ronssemaxim/click-crypto",
+    ClickComponentName.QoS: "ronssemaxim/click-qos",
+    ClickComponentName.Firewall: "ronssemaxim/click-firewall",
+    ClickComponentName.TrafficShaper: "ronssemaxim/click-shaper",
 }

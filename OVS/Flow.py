@@ -136,11 +136,11 @@ def create_chain_flows(chain, deployments_per_component, is_incoming):
     check_vlan = "dl_vlan="
     check_vlan += INCOMING_VLAN if is_incoming else OUTGOING_VLAN
     check_vlan += ","
-    Logger.log("Flow", "Creating flow for last table to dpdk0 port", 4)
+    Logger.log("Flow", "Creating flow for last table to dpdk port", 4)
     ssh_con.exec("sudo ovs-ofctl add-flow " + OVS_SWITCH_NAME + " \""
                  "table=" + KUBE_COMPONENT_TO_OVS_CONFIG[prev_component]["afterTable"] + "," +
                  check_vlan +
-                 "actions=output:" + out_port + ",strip_vlan\"")
+                 "actions=strip_vlan,output:" + out_port + "\"")
 
 
 def create_component_flows(deployments_per_component):

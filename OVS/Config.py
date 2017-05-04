@@ -8,30 +8,25 @@ from MainConfig import ClickComponentName
 # mapping of click component to multipath options.
 # {ClickComponentName: {"beforeTable":x,"afterTable":y,"register":z}, ...}
 KUBE_COMPONENT_TO_OVS_CONFIG = {
-    ClickComponentName.IPSecEnc: {
+    ClickComponentName.IPSec: {
         "beforeTable": "2",
         "afterTable": "3",
         "register": "0"
     },
-    ClickComponentName.IPSecDec: {
+    ClickComponentName.QoS: {
         "beforeTable": "4",
         "afterTable": "5",
         "register": "1"
     },
-    ClickComponentName.QoS: {
+    ClickComponentName.Firewall: {
         "beforeTable": "6",
         "afterTable": "7",
         "register": "2"
     },
-    ClickComponentName.Firewall: {
+    ClickComponentName.TrafficShaper: {
         "beforeTable": "8",
         "afterTable": "9",
         "register": "3"
-    },
-    ClickComponentName.TrafficShaper: {
-        "beforeTable": "10",
-        "afterTable": "11",
-        "register": "4"
     }
 }
 

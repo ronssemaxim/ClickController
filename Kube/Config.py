@@ -18,8 +18,7 @@ MASTER_NODE_NAME = privateMasterNode
 # the component label for the deployments and their value per component type
 # format for the value: [a-zA-Z0-9]+
 KUBE_COMPONENT_TO_LABEL_VALUE = {
-    ClickComponentName.IPSecEnc: "ipsecenc",
-    ClickComponentName.IPSecDec: "ipsecdecr",
+    ClickComponentName.IPSec: "ipsec",
     ClickComponentName.QoS: "qos",
     ClickComponentName.Firewall: "firewall",
     ClickComponentName.TrafficShaper: "shaper"

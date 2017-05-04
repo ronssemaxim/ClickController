@@ -44,17 +44,15 @@ class ClickComponentName(Enum):
     """
     An enum used to define the VPN Component types and their internal number (never used)
     """
-    IPSecEnc = 1
-    IPSecDec = 2
-    Firewall = 3
-    QoS = 4
-    TrafficShaper = 5
-    Test = 6
+    IPSec = 1
+    Firewall = 2
+    QoS = 3
+    TrafficShaper = 4
+    Test = 5
 
 # maximum number of packets per second one container instance for a specific component can process
 MAX_NETWORK_PKTS_PER_COMPONENT = {
-    ClickComponentName.IPSecEnc: 5,
-    ClickComponentName.IPSecDec: 5,
+    ClickComponentName.IPSec: 5,
     ClickComponentName.QoS: 10,
     ClickComponentName.Firewall: 10,
     ClickComponentName.TrafficShaper: 10
@@ -65,13 +63,13 @@ MAX_NETWORK_PKTS_PER_COMPONENT = {
 VPN_COMPONENTS_ORDER_INCOMING = [
     ClickComponentName.TrafficShaper,
     ClickComponentName.QoS,
-    ClickComponentName.IPSecDec,
-    ClickComponentName.Firewall,
+    ClickComponentName.IPSec,
+    ClickComponentName.Firewall
 ]
 # internal net -> shaper -> firewall -> qos -> encrypt -> VPN net
 VPN_COMPONENTS_ORDER_OUTGOING = [
     ClickComponentName.TrafficShaper,
     ClickComponentName.Firewall,
     ClickComponentName.QoS,
-    ClickComponentName.IPSecEnc,
+    ClickComponentName.IPSec
 ]
